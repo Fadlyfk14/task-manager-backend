@@ -8,8 +8,26 @@ import (
 )
 
 func SetupRoutes(app *fiber.App) {
+
 	// ================= ROOT =================
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.JSON(fiber.Map{
+			"app":     "Task Manager Backend",
+			"status":  "running",
+			"message": "API is live 🚀",
+		})
+	})
+
+	// ================= API GROUP =================
 	api := app.Group("/api")
+
+	// ================= HEALTH CHECK =================
+	api.Get("/health", func(c *fiber.Ctx) error {
+		return c.JSON(fiber.Map{
+			"status":  "OK",
+			"service": "Task Manager API",
+		})
+	})
 
 	// ================= PUBLIC ROUTES =================
 	api.Post("/login", handler.Login)
